@@ -1,0 +1,6 @@
+test
+test.cpp
+main
+*.o
+test.*
+*.test

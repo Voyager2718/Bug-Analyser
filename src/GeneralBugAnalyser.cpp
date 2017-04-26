@@ -20,7 +20,7 @@ GeneralBugAnalyser::GeneralBugAnalyser(){
 
 shared_ptr< BugAnalyserInterface > GeneralBugAnalyser::analyse(vector< string > lines_of_log) {
     //TODO: Analyse some lines, if this class can handle, return this class's instance. If not, return null.
-    return NULL;
+    return nullptr;
 }
 
 shared_ptr<Report> GeneralBugAnalyser::analyseLog(string bug_log_location) {
