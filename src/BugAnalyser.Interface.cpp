@@ -8,7 +8,7 @@ BugAnalyserInterface& BugAnalyserInterface::add_analyst(shared_ptr< BugAnalyserI
     return *this;
 }
 
-shared_ptr<Report> BugAnalyserInterface::analyseLog(string bug_log_location) {
+shared_ptr<Report> BugAnalyserInterface::analyse_log(string bug_log_location) {
     std::ifstream in_file(bug_log_location);
 
     if (in_file.is_open())
@@ -34,7 +34,7 @@ shared_ptr<Report> BugAnalyserInterface::analyseLog(string bug_log_location) {
 
                 shared_ptr< BugAnalyserInterface > s_temp = analyst(v_temp);
                 if(s_temp != nullptr){
-                    shared_ptr<Report> r_temp = s_temp->analyseLog();
+                    shared_ptr<Report> r_temp = s_temp->analyse_log();
                     //TODO: Concat r_temp and this.report.
                 }
             }
@@ -45,7 +45,7 @@ shared_ptr<Report> BugAnalyserInterface::analyseLog(string bug_log_location) {
     throw std::exception();
 }
 
-shared_ptr<Report> BugAnalyserInterface::analyseLog() {
+shared_ptr<Report> BugAnalyserInterface::analyse_log() {
     if(this->_bug_log_location == ""){
         throw std::exception(); //TODO: Better to introduce a bunch of Exception class or create an Exception class with message.
     }

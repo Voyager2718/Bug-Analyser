@@ -20,9 +20,9 @@ public:
 
     static shared_ptr< BugAnalyserInterface > analyse(vector< string > lines_of_log);
 
-    virtual shared_ptr< Report > analyseLog(string bug_log_location);
+    virtual shared_ptr< Report > analyse_log(string bug_log_location);
 
-    virtual shared_ptr< Report > analyseLog();
+    virtual shared_ptr< Report > analyse_log();
 };
 
 #endif
