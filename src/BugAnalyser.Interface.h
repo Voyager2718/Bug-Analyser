@@ -12,6 +12,7 @@ using std::shared_ptr;
 
 class BugAnalyserInterface{
 protected:
+    string analyser_name;
     string _bug_log_location;
     vector< shared_ptr< BugAnalyserInterface >(*)( vector< string > ) > analysts;
 public:
@@ -20,6 +21,8 @@ public:
     static shared_ptr< BugAnalyserInterface > analyse(vector< string > lines_of_log);
 
     virtual shared_ptr< Report > analyseLog(string bug_log_location);
+
+    virtual shared_ptr< Report > analyseLog();
 };
 
 #endif
