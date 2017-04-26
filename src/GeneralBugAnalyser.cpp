@@ -18,13 +18,6 @@ GeneralBugAnalyser::GeneralBugAnalyser(){
 
 }
 
-/*
-BugAnalyserInterface& GeneralBugAnalyser::add_analyst(< shared_ptr< BugAnalyserInterface >(*analyst)( vector< string > ) > >){
-    analysts.push_back(analyst);
-    return *this;
-}
-*/
-
 shared_ptr< BugAnalyserInterface > GeneralBugAnalyser::analyse(vector< string > lines_of_log) {
     //TODO: Analyse some lines, if this class can handle, return this class's instance. If not, return null.
     return NULL;

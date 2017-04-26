@@ -11,11 +11,11 @@ using std::string;
 using std::shared_ptr;
 
 class BugAnalyserInterface{
-private:
+protected:
     string _bug_log_location;
     vector< shared_ptr< BugAnalyserInterface >(*)( vector< string > ) > analysts;
 public:
-    //virtual BugAnalyserInterface& add_analyst(< shared_ptr< BugAnalyserInterface >(*)( vector< string > ) > >);
+    virtual BugAnalyserInterface& add_analyst(shared_ptr< BugAnalyserInterface >(*)( vector< string > ));
 
     static shared_ptr< BugAnalyserInterface > analyse(vector< string > lines_of_log);
 
