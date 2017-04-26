@@ -20,6 +20,19 @@ public:
     }
 };
 
+class Test2{
+private:
+    vector<int> list;
+public:
+    Test2& addInt(int a){
+        list.push_back(a);
+        return *this;
+    }
+    vector<int> getList(){
+        return list;
+    }
+};
+
 int main(){
     Test test;
     test.add(1);
@@ -31,5 +44,18 @@ int main(){
     int a = test.get_a();
     a = 200;
     cout<<a<<" "<<test.get_a()<<endl;
+
+    cout<<"----"<<endl;
+    
+    Test2 test2;
+    test2.addInt(10)
+        .addInt(20)
+        .addInt(30);
+
+    for(auto& i : test2.getList()){
+        cout<<i<<endl;
+    }
+
+
     return 0;
 }
