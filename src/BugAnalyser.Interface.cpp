@@ -4,3 +4,10 @@ BugAnalyserInterface& BugAnalyserInterface::add_analyst(shared_ptr< BugAnalyserI
     analysts.push_back(analyst);
     return *this;
 }
+
+
+shared_ptr<Report> BugAnalyserInterface::analyseLog(string bug_log_location) {
+    shared_ptr<Report> report(new Report());
+    //TODO: Analyse an entire .log or .trc file.
+    return report;
+}

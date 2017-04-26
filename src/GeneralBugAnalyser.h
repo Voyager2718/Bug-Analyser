@@ -17,8 +17,6 @@ public:
     GeneralBugAnalyser();
 
     static shared_ptr< BugAnalyserInterface > analyse(vector< string > lines_of_log);
-
-    virtual shared_ptr< Report > analyseLog(string bug_log_location) override;
 };
 
 #endif
