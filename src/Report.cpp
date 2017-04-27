@@ -8,6 +8,7 @@
 using std::string;
 using std::map;
 using std::vector;
+using std::shared_ptr;
 
 void Report::add_report(map< string, string > report){
     reports.push_back(report);
@@ -32,7 +33,7 @@ Report Report::operator+(const Report& report){
     return report;
 }
 
-void Report::merge_reports(Report reports){
-    vector< map < string, string> >temp = reports.get_reports();
+void Report::merge_reports(shared_ptr< Report > reports){
+    vector< map < string, string> >temp = reports->get_reports();
     this->reports.insert(this->reports.end(), temp.begin(), temp.end());
 }

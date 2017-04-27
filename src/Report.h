@@ -9,6 +9,7 @@
 using std::string;
 using std::map;
 using std::vector;
+using std::shared_ptr;
 
 class Report{
 private:
@@ -18,8 +19,8 @@ public:
     virtual void add_reports(vector< map <string, string > >);
     virtual vector< map < string, string> > get_reports() const;
     virtual map < string, string > get_report(int) const;
-    virtual Report operator+(const Report&);
-    virtual void merge_reports(Report);
+    virtual Report operator+(const Report&); //FIXME: Need to get this available for Report = ReportA + ReportB
+    virtual void merge_reports(shared_ptr< Report >);
 };
 
 #endif

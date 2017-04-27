@@ -15,6 +15,7 @@ protected:
     string analyser_name;
     string _bug_log_location;
     vector< shared_ptr< BugAnalyserAbstract >(*)( vector< string > ) > analysts;
+    BugAnalyserAbstract();
 public:
     virtual BugAnalyserAbstract& add_analyst(shared_ptr< BugAnalyserAbstract >(*)( vector< string > ));
 

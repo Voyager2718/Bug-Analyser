@@ -2,6 +2,7 @@
 #include<string>
 #include<memory>
 #include<vector>
+#include<algorithm>
 
 #include"Report.h"
 #include"GeneralBugAnalyser.h"
@@ -22,5 +23,18 @@ GeneralBugAnalyser::GeneralBugAnalyser(){
 shared_ptr< BugAnalyserAbstract > GeneralBugAnalyser::analyse(vector< string > lines_of_log) {
     //TODO: Analyse some lines, if this class can handle, return this class's instance. If not, return null.
     //TODO: BTW, if this class can handle, new an object with the log that interests this class. Or the app will crash.
+
+    /*
+    for(auto& line : lines_of_log){
+        std::transform(line.begin(), line.end(), line.begin(), std::tolower);
+    }
+
+    for(auto& line : lines_of_log){
+        if((line.find("Failed") || line.find("Exception") || line.find("Error") || line.find(""))&&(line.find("gipc"))){
+            shared_ptr< GeneralBugAnalyser > temp(new GeneralBugAnalyser("./gipcd.log"));
+            return temp;
+        }
+    }
+    */
     return nullptr;
 }
