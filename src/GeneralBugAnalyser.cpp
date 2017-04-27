@@ -19,7 +19,7 @@ GeneralBugAnalyser::GeneralBugAnalyser(){
     analyser_name = "General Bug Analyser";
 }
 
-shared_ptr< BugAnalyserInterface > GeneralBugAnalyser::analyse(vector< string > lines_of_log) {
+shared_ptr< BugAnalyserAbstract > GeneralBugAnalyser::analyse(vector< string > lines_of_log) {
     //TODO: Analyse some lines, if this class can handle, return this class's instance. If not, return null.
     //TODO: BTW, if this class can handle, new an object with the log that interests this class. Or the app will crash.
     return nullptr;

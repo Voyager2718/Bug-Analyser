@@ -1,19 +1,19 @@
 #include<exception>
 #include<iostream>
 #include<fstream>
-#include"BugAnalyser.Interface.h"
+#include"BugAnalyser.Abstract.h"
 
-BugAnalyserInterface& BugAnalyserInterface::add_analyst(shared_ptr< BugAnalyserInterface >(*analyst)( vector< string > )){
+BugAnalyserAbstract& BugAnalyserAbstract::add_analyst(shared_ptr< BugAnalyserAbstract >(*analyst)( vector< string > )){
     analysts.push_back(analyst);
     return *this;
 }
 
-BugAnalyserInterface& BugAnalyserInterface::add_analyst(vector< shared_ptr< BugAnalyserInterface >(*)( vector< string > ) > analysts){
+BugAnalyserAbstract& BugAnalyserAbstract::add_analyst(vector< shared_ptr< BugAnalyserAbstract >(*)( vector< string > ) > analysts){
     this->analysts = analysts;
     return *this;
 }
 
-shared_ptr<Report> BugAnalyserInterface::analyse_log(string bug_log_location) {
+shared_ptr<Report> BugAnalyserAbstract::analyse_log(string bug_log_location) {
     std::ifstream in_file(bug_log_location);
 
     if (in_file.is_open())
@@ -38,7 +38,7 @@ shared_ptr<Report> BugAnalyserInterface::analyse_log(string bug_log_location) {
                 v_temp.push_back(lines_in_reverse[i+1]);
                 v_temp.push_back(lines_in_reverse[i+2]);
 
-                shared_ptr< BugAnalyserInterface > s_temp = analyst(v_temp);
+                shared_ptr< BugAnalyserAbstract > s_temp = analyst(v_temp);
                 s_temp->add_analyst(this->analysts);
                 if(s_temp != nullptr){
                     shared_ptr<Report> r_temp = s_temp->analyse_log();
@@ -51,7 +51,7 @@ shared_ptr<Report> BugAnalyserInterface::analyse_log(string bug_log_location) {
     throw std::exception();
 }
 
-shared_ptr<Report> BugAnalyserInterface::analyse_log() {
+shared_ptr<Report> BugAnalyserAbstract::analyse_log() {
     if(this->_bug_log_location == ""){
         throw std::exception(); //TODO: Better to introduce a bunch of Exception class or create an Exception class with message.
     }
