@@ -18,6 +18,8 @@ protected:
 public:
     virtual BugAnalyserInterface& add_analyst(shared_ptr< BugAnalyserInterface >(*)( vector< string > ));
 
+    virtual BugAnalyserInterface& add_analyst(vector< shared_ptr< BugAnalyserInterface >(*)( vector< string > ) >);
+
     static shared_ptr< BugAnalyserInterface > analyse(vector< string > lines_of_log);
 
     virtual shared_ptr< Report > analyse_log(string bug_log_location);
