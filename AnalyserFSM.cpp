@@ -119,6 +119,7 @@ public:
         this->code = code;
 
         while(1){
+            STATE last_state = state;
             switch(state){
                 case NORMAL_STATE:
                     if(is_end_of_file_tokenizer()){
@@ -205,6 +206,9 @@ public:
                 case SUCCESS:
                     result = 1;
                     return;
+            }
+            if(last_state != NORMAL_STATE && state == NORMAL_STATE){
+                tokens = {};
             }
         }
     }
