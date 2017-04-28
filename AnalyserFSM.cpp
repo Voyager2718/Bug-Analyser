@@ -2,8 +2,16 @@
 #include<vector>
 #include<string>
 #include<map>
+#include<regex>
 
-using namespace std;
+using std::map;
+using std::vector;
+using std::cout;
+using std::cin;
+using std::endl;
+using std::string;
+using std::regex;
+using std::regex_match;
 
 class AnalyserFSM{
 private:
@@ -83,10 +91,15 @@ private:
             }
             i++;
         }
-        if(is_cpp_keyword(code.substr(code_position, i))){
+        string classname = string(code.substr(code_position, i));
+        if(is_cpp_keyword(classname)){
             return false;
         }
-        tokens.push_back(make_map("class_identifier", "\"" + string(code.substr(code_position, i)) + "\""));
+        regex classname_pattern("([A-Za-z_][A-Za-z0-9_]*)");
+        if(!regex_match(classname, classname_pattern)){
+            return false;
+        }
+        tokens.push_back(make_map("class_identifier", "\"" + classname + "\""));
         code_position += i; // FIXME
         return true;
     }
@@ -127,7 +140,7 @@ private:
     }
 
     bool is_normal_tokenizer(){
-        //TODO: Ignore not wanted objects.
+        //Ignore not wanted objects.
         code_position ++;
         return true;
     }
@@ -253,7 +266,7 @@ public:
 int main(int argc, char *argv[]){
     string code;
     if(argc > 1){
-        // TODO: Get source code.
+        // TODO: Get source code by path(Dir or file).
     }else{
         cout<<"Enter a code to parse:"<<endl;
         getline(cin, code);
@@ -261,7 +274,7 @@ int main(int argc, char *argv[]){
     }
     
     AnalyserFSM fsm(code);
-    cout<<"Parse " + string(fsm.get_result() ? "success!" : "failed!")<<endl<<endl;;
+    cout<<"Parse " + string(fsm.get_result() ? "successful!" : "failed!")<<endl<<endl;;
 
     cout<<"Tokens:"<<endl;
     vector< map< string, string > > tokens = fsm.get_tokens();
