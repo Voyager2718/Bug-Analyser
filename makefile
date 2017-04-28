@@ -1,4 +1,4 @@
-to_clean = Report.o GeneralBugAnalyser.o BugAnalyser.Abstract.o
+to_clean = Report.o GeneralBugAnalyser.o BugAnalyser.Abstract.o BugAnalyser.Interface.o
 
 main: main.cpp src/GeneralBugAnalyser.o
 	g++ main.cpp GeneralBugAnalyser.o Report.o BugAnalyser.Abstract.o -o main -std=c++11

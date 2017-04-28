@@ -15,17 +15,18 @@ using std::regex_match;
 
 class AnalyserFSM{
 private:
-    enum STATE  {CLASS_KEY_STATE, CLASSNAME_STATE, COLON_STATE, VIRTUAL_STATE, PERMISSION_STATE, NORMAL_STATE, FAILED, SUCCESS};
-    // enum WORD   {OTHER, END_OF_FILE, CLASS_KEY, VALID_CLASS_NAME, COLON_KEY, VIRTUAL_KEY, PERMISSION_KEY, VALID_BASE_CLASS_NAME};
+    enum STATE  {CLASS_KEY_STATE, CLASSNAME_STATE, COLON_STATE, VIRTUAL_STATE, PERMISSION_STATE, NORMAL_STATE, FAILED, GOT_ONE_DERIVED, SUCCESS};
     STATE state;
 
-    int code_position; // Interpreted position
+    int code_position; // Interpretation position
     string code;
 
     int result; // 0: Failed 1: Success
     string class_name; // Extracted derived class name.
 
     vector< map< string, string > > tokens;
+
+    vector< vector< map< string, string > > > classes_tokens;
 
     map<string, string> make_map(string key, string value){
         map<string, string> temp;
@@ -156,8 +157,14 @@ public:
             switch(state){
                 case NORMAL_STATE:
                     if(is_end_of_file_tokenizer()){
-                        state = FAILED;
-                        break;
+                        if(classes_tokens.size() > 0){
+                            state = SUCCESS;
+                            break;
+                        }
+                        else{
+                            state = FAILED;
+                            break;
+                        }
                     }
                     space_tokenizer();
                     enter_tokenizer();
@@ -207,7 +214,7 @@ public:
                     }else if(is_permission_tokenizer()){
                         state = PERMISSION_STATE;
                     }else if(is_valid_classname_tokenizer()){
-                        state = SUCCESS;
+                        state = GOT_ONE_DERIVED;
                     }else{
                         state = NORMAL_STATE;
                     }
@@ -222,7 +229,7 @@ public:
                     if(is_permission_tokenizer()){
                         state = PERMISSION_STATE;
                     }else if(is_valid_classname_tokenizer()){
-                        state = SUCCESS;
+                        state = GOT_ONE_DERIVED;
                     }else{
                         state = NORMAL_STATE;
                     }
@@ -235,17 +242,22 @@ public:
                     space_tokenizer();
                     enter_tokenizer();
                     if(is_valid_classname_tokenizer()){
-                        state = SUCCESS;
+                        state = GOT_ONE_DERIVED;
                     }else{
                         state = NORMAL_STATE;
                     }
                     break;
-                case FAILED:
+                case GOT_ONE_DERIVED:
+                    result = 1;
+                    classes_tokens.push_back(tokens);
                     tokens = {};
+                    state = NORMAL_STATE;
+                    break;
+                case FAILED:
                     result = 0;
+                    tokens = {};
                     return;
                 case SUCCESS:
-                    result = 1;
                     return;
             }
             if(last_state != NORMAL_STATE && state == NORMAL_STATE){
@@ -258,8 +270,8 @@ public:
         return result;
     }
 
-    vector< map< string, string > > get_tokens(){
-        return tokens;
+    vector< vector< map< string, string > > > get_classes_tokens(){
+        return classes_tokens;
     }
 };
 
@@ -277,12 +289,18 @@ int main(int argc, char *argv[]){
     cout<<"Parse " + string(fsm.get_result() ? "successful!" : "failed!")<<endl<<endl;;
 
     cout<<"Tokens:"<<endl;
-    vector< map< string, string > > tokens = fsm.get_tokens();
-    if(tokens.size() == 0){
-        cout<<"No token has been generated because of parsing failed."<<endl;
-    }
-    for(auto& token : tokens){
-        cout<<token["keyword"]<<": "<<token["value"]<<endl;
+    vector< vector< map< string, string > > >classes_tokens = fsm.get_classes_tokens();
+
+    {
+        int i = 0;
+        for(auto& class_token : classes_tokens){
+            i ++;
+            cout<<"Tokens of class "<<i<<":"<<endl;
+            for(auto& token : class_token){
+                cout<<token["keyword"]<<": "<<token["value"]<<endl;
+            }
+            cout<<endl;
+        }
     }
     return 0;
 }
