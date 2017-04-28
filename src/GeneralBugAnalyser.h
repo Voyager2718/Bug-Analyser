@@ -10,7 +10,7 @@ using std::string;
 using std::shared_ptr;
 using std::vector;
 
-class GeneralBugAnalyser : BugAnalyserAbstract{
+class GeneralBugAnalyser : virtual public BugAnalyserAbstract{
 public:
     GeneralBugAnalyser(string bug_log_location);
 
