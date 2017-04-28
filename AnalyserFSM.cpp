@@ -66,8 +66,8 @@ private:
     }
 
     bool is_class_tokenizer(){
-        if(code.substr(code_position, 5) == "class"){
-            code_position += 5;
+        if(code.substr(code_position, 6) == "class "){
+            code_position += 6;
             tokens.push_back(make_map("class_key", "\"class\""));
             return true;
         }
@@ -93,8 +93,8 @@ private:
     }
 
     bool is_virtual_tokenizer(){
-        if(code.substr(code_position, 7) == "virtual"){
-            code_position += 7;
+        if(code.substr(code_position, 8) == "virtual "){
+            code_position += 8;
             tokens.push_back(make_map("virtual_identifier", "\"virtual\""));
             return true;
         }
@@ -102,16 +102,16 @@ private:
     }
 
     bool is_permission_tokenizer(){
-        if(code.substr(code_position, 6) == "public"){
-            code_position += 6;
+        if(code.substr(code_position, 7) == "public "){
+            code_position += 7;
             tokens.push_back(make_map("permission_identifier", "\"public\""));
             return true;
-        }else if(code.substr(code_position, 9) == "protected"){
-            code_position += 9;
+        }else if(code.substr(code_position, 10) == "protected "){
+            code_position += 10;
             tokens.push_back(make_map("permission_identifier", "\"protected\""));
             return true;
-        }else if(code.substr(code_position, 7) == "private"){
-            code_position += 7;
+        }else if(code.substr(code_position, 8) == "private "){
+            code_position += 8;
             tokens.push_back(make_map("permission_identifier", "\"private\""));
             return true;
         }
