@@ -76,7 +76,26 @@ private:
         return false;
     }
 
+    bool is_permission_tokenizer(){
+        if(code.substr(code_position, 6) == "public"){
+            code_position += 6;
+            tokens.push_back(make_map("permission_identifier", "public"));
+            return true;
+        }else if(code.substr(code_position, 9) == "protected"){
+            code_position += 9;
+            tokens.push_back(make_map("permission_identifier", "protected"));
+            return true;
+        }else if(code.substr(code_position, 7) == "private"){
+            code_position += 7;
+            tokens.push_back(make_map("permission_identifier", "private"));
+            return true;
+        }
+
+        return false;
+    }
+
     bool is_normal_tokenizer(){
+        //TODO: Ignore not wanted objects.
         return true;
     }
 
@@ -138,8 +157,32 @@ public:
                         state = NORMAL_STATE;
                     }
                     break;
-                case VIRTUAL_STATE:       break;
-                case PERMISSION_STATE:    break;
+                case VIRTUAL_STATE:
+                    if(is_end_of_file_tokenizer()){
+                        state = FAILED;
+                        break;
+                    }
+                    space_tokenizer();
+                    if(is_valid_classname_tokenizer()){
+                        state = SUCCESS;
+                    }else if(is_permission_tokenizer()){
+                        state = PERMISSION_STATE;
+                    }else{
+                        state = NORMAL_STATE;
+                    }
+                    break;
+                case PERMISSION_STATE:
+                    if(is_end_of_file_tokenizer()){
+                        state = FAILED;
+                        break;
+                    }
+                    space_tokenizer();
+                    if(is_valid_classname_tokenizer()){
+                        state = SUCCESS;
+                    }else{
+                        state = NORMAL_STATE;
+                    }
+                    break;
                 case FAILED:
                     result = 0;
                     return;
