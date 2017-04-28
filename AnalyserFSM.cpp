@@ -46,6 +46,18 @@ private:
         }
     }
 
+    void enter_tokenizer(){
+        while(1){
+            if(code.substr(code_position, 2) == "\r\n"){
+                code_position += 2;
+            }else if((code.substr(code_position, 1) == "\n")){
+                code_position += 1;
+            }else{
+                break;
+            }
+        }
+    }
+
     bool is_end_of_file_tokenizer(){
         if(code_position >= code.size()){
             return true;
@@ -127,6 +139,7 @@ public:
                         break;
                     }
                     space_tokenizer();
+                    enter_tokenizer();
                     if(is_class_tokenizer()){
                         state = CLASS_KEY_STATE;
                     }else if(is_normal_tokenizer()){
@@ -139,6 +152,7 @@ public:
                         break;
                     }
                     space_tokenizer();
+                    enter_tokenizer();
                     if(is_valid_classname_tokenizer()){
                         state = CLASSNAME_STATE;
                     }else if(is_end_of_file_tokenizer()){
@@ -153,6 +167,7 @@ public:
                         break;
                     }
                     space_tokenizer();
+                    enter_tokenizer();
                     if(is_colon_tokenizer()){
                         state = COLON_STATE;
                     }else{
@@ -165,6 +180,7 @@ public:
                         break;
                     }
                     space_tokenizer();
+                    enter_tokenizer();
                     if(is_virtual_tokenizer()){
                         state = VIRTUAL_STATE;
                     }else if(is_valid_classname_tokenizer()){
@@ -179,6 +195,7 @@ public:
                         break;
                     }
                     space_tokenizer();
+                    enter_tokenizer();
                     if(is_permission_tokenizer()){
                         state = PERMISSION_STATE;
                     }else if(is_valid_classname_tokenizer()){
@@ -193,6 +210,7 @@ public:
                         break;
                     }
                     space_tokenizer();
+                    enter_tokenizer();
                     if(is_valid_classname_tokenizer()){
                         state = SUCCESS;
                     }else{
@@ -222,9 +240,8 @@ public:
     }
 };
 
-//class XXX : virtual public Wanted{};
 int main(int argc, char *argv[]){
-string code;
+    string code;
     if(argc > 1){
         // TODO: Get source code.
     }else{
@@ -235,8 +252,6 @@ string code;
     
     AnalyserFSM fsm(code);
     cout<<"Parse " + string(fsm.get_result() ? "success!" : "failed!")<<endl<<endl;;
-
-    cout<<"Source code:\n"<<code<<endl<<endl;
 
     cout<<"Tokens:"<<endl;
     vector< map< string, string > > tokens = fsm.get_tokens();
