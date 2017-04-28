@@ -26,6 +26,10 @@ private:
         return temp;
     }
 
+    bool is_cpp_keyword(){
+        vector<string> keywords = {"test"};
+    }
+
     void space_tokenizer(){
         while(1){
             if(code.substr(code_position, 1) == " "){
