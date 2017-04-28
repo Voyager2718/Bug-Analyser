@@ -95,6 +95,7 @@ private:
 
     bool is_normal_tokenizer(){
         //TODO: Ignore not wanted objects.
+        code_position ++;
         return true;
     }
 
@@ -114,6 +115,8 @@ public:
                     space_tokenizer();
                     if(is_class_tokenizer()){
                         state = CLASS_KEY_STATE;
+                    }else if(is_normal_tokenizer()){
+                        
                     }
                     break;
                 case CLASS_KEY_STATE:
