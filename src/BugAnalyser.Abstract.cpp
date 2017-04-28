@@ -39,8 +39,8 @@ shared_ptr<Report> BugAnalyserAbstract::analyse_log(string bug_log_location) {
 
         shared_ptr<Report> report(new Report());
         map< string, string >m_temp;
-        m_temp["tree"] = analyser_name + " is running on " + bug_log_location;
-        std::cout<<analyser_name + " is running on " + bug_log_location<<std::endl;
+        m_temp["tree"] = analyser_name + " is running on " + bug_log_location + ": Found an error.";
+        std::cout<<analyser_name + " is running on " + bug_log_location + ": Found an error."<<std::endl;
         report->add_report(m_temp);//Add to report trace tree.
         
         for(int i = 0; i < log_lines.size(); i += 3){
@@ -87,8 +87,8 @@ shared_ptr<Report> BugAnalyserAbstract::analyse_log() {
 
         shared_ptr<Report> report(new Report());
         map< string, string >m_temp;
-        m_temp["tree"] = analyser_name + " is running on " + this->_bug_log_location;
-        std::cout<<analyser_name + " is running on " + this->_bug_log_location<<std::endl;
+        m_temp["tree"] = analyser_name + " is running on " + this->_bug_log_location + ": Found an error.";
+        std::cout<<analyser_name + " is running on " + this->_bug_log_location + ": Found an error."<<std::endl;
         report->add_report(m_temp);//Add to report trace tree.
         
         for(int i = 0; i < log_lines.size(); i += 3){
@@ -101,6 +101,8 @@ shared_ptr<Report> BugAnalyserAbstract::analyse_log() {
                 shared_ptr< BugAnalyserAbstract > s_temp = analyst(v_temp);
                 s_temp->add_analyst(this->analysts);
                 if(s_temp != nullptr){
+                    map< string, string >m_temp2;
+                    m_temp2["err"] = analyser_name + " is running on " + this->_bug_log_location + ": Found an error.";
                     shared_ptr<Report> r_temp = s_temp->analyse_log();
                     report->merge_reports(r_temp);
                 }
