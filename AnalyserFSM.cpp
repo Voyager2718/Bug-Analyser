@@ -183,6 +183,8 @@ public:
                     enter_tokenizer();
                     if(is_virtual_tokenizer()){
                         state = VIRTUAL_STATE;
+                    }else if(is_permission_tokenizer()){
+                        state = PERMISSION_STATE;
                     }else if(is_valid_classname_tokenizer()){
                         state = SUCCESS;
                     }else{
