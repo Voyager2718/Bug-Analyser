@@ -74,12 +74,20 @@ private:
         return false;
     }
 
-    bool is_valid_classname_tokenizer(){      
-        if(is_cpp_keyword(code.substr(code_position, 4))){
+    bool is_valid_classname_tokenizer(){
+        int i = 0;
+        while(code_position + i < code.size()){
+            string end_word = code.substr(code_position + i, 1);
+            if(end_word == "{" || end_word == " "){
+                break;
+            }
+            i++;
+        }
+        if(is_cpp_keyword(code.substr(code_position, i))){
             return false;
         }
-        tokens.push_back(make_map("class_identifier", "\"" + string(code.substr(code_position, 4)) + "\""));
-        code_position += 4; // FIXME
+        tokens.push_back(make_map("class_identifier", "\"" + string(code.substr(code_position, i)) + "\""));
+        code_position += i; // FIXME
         return true;
     }
 
@@ -258,7 +266,7 @@ int main(int argc, char *argv[]){
     cout<<"Tokens:"<<endl;
     vector< map< string, string > > tokens = fsm.get_tokens();
     if(tokens.size() == 0){
-        cout<<"No token has been generated because parsing failed."<<endl;
+        cout<<"No token has been generated because of parsing failed."<<endl;
     }
     for(auto& token : tokens){
         cout<<token["keyword"]<<": "<<token["value"]<<endl;
