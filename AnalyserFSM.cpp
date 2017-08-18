@@ -87,7 +87,7 @@ private:
         int i = 0;
         while(code_position + i < code.size()){
             string end_word = code.substr(code_position + i, 1);
-            if(end_word == "{" || end_word == " "){
+            if(end_word == "{" || end_word == " " || end_word == ":"){
                 break;
             }
             i++;
